@@ -16,6 +16,7 @@
 
 package android.example.com.squawker;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.example.com.squawker.following.FollowingPreferenceActivity;
@@ -37,7 +38,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.squawks_recycler_view);
+        mRecyclerView = findViewById(R.id.squawks_recycler_view);
 
         // Use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -92,6 +92,31 @@ public class MainActivity extends AppCompatActivity implements
         // Start the loader
         LoaderManager.getInstance(this).initLoader(LOADER_ID_MESSAGES, null, this);
 
+        ContentValues values = new ContentValues();
+        values.put(SquawkContract.COLUMN_DATE, 1487968810557L);
+        values.put(SquawkContract.COLUMN_AUTHOR_KEY, SquawkContract.LYLA_KEY);
+        values.put(SquawkContract.COLUMN_AUTHOR, "TheRealLyla");
+        values.put(SquawkContract.COLUMN_MESSAGE, "Hello World");
+        getContentResolver().insert(SquawkProvider.SquawkMessages.CONTENT_URI, values);
+
+        ContentValues values1 = new ContentValues();
+        values1.put(SquawkContract.COLUMN_DATE, 1487968811043L);
+        values1.put(SquawkContract.COLUMN_AUTHOR_KEY, SquawkContract.ASSER_KEY);
+        values1.put(SquawkContract.COLUMN_AUTHOR, "TheRealAsser");
+        values1.put(SquawkContract.COLUMN_MESSAGE, "Hello World Again");
+        getContentResolver().insert(SquawkProvider.SquawkMessages.CONTENT_URI, values1);
+
+        ContentValues values2 = new ContentValues();
+        values2.put(SquawkContract.COLUMN_DATE, 1487968811043L);
+        values2.put(SquawkContract.COLUMN_AUTHOR_KEY, SquawkContract.CEZANNE_KEY);
+        values2.put(SquawkContract.COLUMN_AUTHOR, "TheRealCezanne");
+        values2.put(SquawkContract.COLUMN_MESSAGE, "Hello Hello Hello");
+        getContentResolver().insert(SquawkProvider.SquawkMessages.CONTENT_URI, values2);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.containsKey("test")){
+            Log.d(LOG_TAG, "Contains: " + extras.getString("test"));
+        }
         // Get token from the ID Service you created and show it in a log
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( MainActivity.this,  new OnSuccessListener<InstanceIdResult>() {
             @Override

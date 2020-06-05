@@ -26,7 +26,6 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-
 /**
  * Shows the list of instructors you can follow
  */
